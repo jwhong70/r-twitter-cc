@@ -282,9 +282,9 @@ $ BrowserRouter/Routes/Route 컴포넌트로 AppRouter 컴포넌트 생성
 #- src/routes/Profile.js에 refreshUser prop 전달
 #7-3-2 firebase의 사용자 Profile이 업데이트 될 때, 화면에 표시되는 사용자 Profile도 업데이트하기 위해, src/routes/Profile.js의 onSubmit 함수 안에 refreshUser 함수를 호출
 #8 FINISHING UP(생략): NOMAD CODERS - 트위터 클론코딩 참조
-① Cleaning JS
-② Styles
-③ Deploying
-④ Security on Firebase
-⑤ API Key Security
+#- Cleaning JS
+#- Styles
+#- Deploying
+#- Security on Firebase
+#- API Key Security
 
