@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AppRouter from "./Router";
 import { auth } from "./../fbase";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, updateCurrentUser } from "firebase/auth";
 
 function App() {
   // #4-2-1
@@ -28,11 +28,21 @@ function App() {
       setInit(true);
     });
   }, []);
+  // #7-3-1
+  const refreshUser = async () => {
+    await updateCurrentUser(auth, userObj);
+    setUserObj(auth.currentUser);
+  };
   return (
     // #3-5-3/#3-6-2/#4-5-4/#5-6-3
     <>
       {init ? (
-        <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} />
+        <AppRouter
+          isLoggedIn={isLoggedIn}
+          userObj={userObj}
+          // #7-3-1
+          refreshUser={refreshUser}
+        />
       ) : (
         "Initializing..."
       )}
