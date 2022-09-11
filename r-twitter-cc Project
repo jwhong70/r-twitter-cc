@@ -1,0 +1,290 @@
+#0 CRA(create-react-app) 설치
+#1 SETUP
+#1-1 GitHub에 저장소 생성: jwhong70/r-twitter-cc
+#1-2 Firebase 설치
+#1-3 app에 GitHub에 저장소 연결
+#1-4 파일 내용 수정: ⑴ App.js, ⑵ index.js, ⑶ package.json 
+#1-5 필요없는 파일 삭제: ⑴ src/App.css, ⑵ src/App.test.js, ⑶ src/index.css, ⑷ src/logo.svg, ⑸ src/reportWebVitals.js, ⑹ src/setupTests.js
+
+
+
+#2 Firebase Setup
+#2-1 Firebase 프로젝트 생성
+#2-2 앱에 Firebase를 추가해 시작하기
+#2-3 SDK 설치
+#2-4 Firebase 초기화: src/fbase.js, .env 생성
+#2-5 .gitignore의 # misc 맨 아래에 .env 추가
+// .env
+REACT_APP_API_KEY=AIzaSyDiIwfFu0VlXMgKl4dPvYsEdrdg2d9iHmo
+REACT_APP_AUTH_DOMAIN=h-twitter-cc.firebaseapp.com
+REACT_APP_DATABASE_URL=https://DATABASE_NAME.REGION.firebasedatabase.app
+REACT_APP_PROJECT_ID=h-twitter-cc
+REACT_APP_STORAGE_BUCKET=h-twitter-cc.appspot.com
+REACT_APP_MESSAGIN_ID=570759616410
+REACT_APP_APP_ID=1:570759616410:web:d6bd8e31d6d89ae254cc23
+#3 Router Setup
+#3-1 react-router-dom 설치
+#3-2 src/routes 폴더 생성
+#- src/routes/Auth.js 생성
+#- src/routes/Home.js 생성
+#- src/routes/Profile.js 생성
+#3-3 src/components 폴더 생성
+#- src/components/Router.js 생성 
+#3-4 AppRouter 컴포넌트 생성
+#- 위치: src/components/Router.js
+$ BrowserRouter/Routes/Route 컴포넌트로 AppRouter 컴포넌트 생성
+#3-5 AppRouter 컴포넌트 렌더링
+#3-5-1 src/App.js → src/components/App.js로 이동
+#3-5-2 src/index.js에 import App from "./App" → import App from "./components/App"로 변경
+#3-5-3 src/App.js에 AppRouter 컴포넌트 렌더링
+#3-6 isLoggedIn 상수
+#- 위치: src/App.js 
+#3-6-1 useState로 isLoggedIn 상수 설정
+#3-6-2 AppRouter 컴포넌트에 isLoggedIn 상수를 isLoggedIn prop으로 설정
+#3-6-3 Router.js의 AppRouter 컴포넌트에 isLoggedIn prop 전달
+#3-6-4 isLoggedIn 상수와 삼항 연산자를 이용해, 로그인 여부에 따라 분기가 달라지게 처리
+#4 Authentication
+#4-1 Authentication SDK 추가 및 초기화
+#4-2 현재 로그인한 사용자 가져오기
+#- 위치: src/App.js
+#4-2-1 auth.currentUser로, user 상수 생성
+#4-2-2 user 상수를 isLoggedIn 상수의 useState의 초기값으로 설정 
+#4-3 로그인 폼 만들기
+#- 위치: src/routes/Auth.js 
+#4-3-1 form 컴포넌트 생성
+#- 그 안에 3개의 email, password, submit input 컴포넌트 생성
+#4-3-2 2개의 Google에서 계속, Github에서 계속 button 컴포넌트 생성
+#4-3-3 useState로 email 상수와 password 상수 생성
+#- input 컴포넌트에 email 상수와 password 상수를 value prop으로 설정
+#4-3-4 onChange 함수 생성 
+#- event 객체의 target에서 name, value 추출
+#- 이를 이용해 email 상수와 password 상수의 state 변경을 설정
+#- email과 password input 컴포넌트에 onChange 함수를 onChange prop으로 설정 
+#4-3-5 onSubmit 함수 생성
+#- 함수 안에 event.preventDefault( ) 설정
+#- form 컴포넌트에 onSubmit 함수를 onSubmit prop으로 설정
+#4-4 계정 생성 기능 구현
+#4-4-1 useState로 newAccount 상수 생성
+#- 위치: src/routes/Auth.js 
+#4-4-2 onSubmit 함수 수정
+#- try ~ catch 문 작성
+#- newAccount가 true이면, createUserWithEmailAndPassword 함수로 신규 사용자 계정 생성
+#- newAccount가 false이면, signInWithEmailAndPassword 함수로 기존 사용자 로그인
+#4-4-3 submit input 컴포넌트에 삼항 연산자를 이용해, newAccount에 따라 계정 생성 또는 로그인으로 바뀌는 값을 value prop으로 설정
+#4-5 현재 로그인한 사용자 가져오기
+#- 위치: src/components/App.js
+#4-5-1 useState로 init 상수와 isLoggedIn 상수 생성
+#4-5-2 useEffect로 컴포넌트가 mount 됐을 때, onAuthStateChanged 함수 호출
+#4-5-3 조건문을 사용해, 사용자의 로그인 상태가 변경될 때마다, isLoggedIn 상수와 init 상수의 state 변경을 설정
+#4-5-4 삼항 연산자를 사용해, 초기화가 되었을 때만 AppRouter 컴포넌트가 렌더링 되게 설정
+#4-6 error 메시지 보여주기
+#- 위치: src/routes/Auth.js
+#4-6-1 useState로 error 상수 생성
+#4-6-2 onSubmit 함수에 error 발생시, error 상수 state의 error.message로 변경을 설정
+#4-6-3 submit input 컴포넌트 아래에 error 상수 렌더링
+#4-7 로그인/계정 생성으로 변경되는 버튼 생성
+#- 위치: src/routes/Auth.js
+#4-7-1 toggleAccount 함수 생성
+#- newAccount 상수의 state를 반대로 변경해주는 함수
+#4-7-2 newAccount에 따라 계정 생성 또는 로그인으로 이름이 바뀌는 버튼 생성
+#4-7-3 버튼에 toggleAccount 함수를 onClick prop으로 설정
+#4-8 Social Login 구현
+#- 위치: src/routes/Auth.js 
+#4-8-1 onSocialClick 함수 생성
+#- name이 google이면 GoogleAuthProvider 함수를, github면 GithubAuthProvider 함수를 호출하는 조건문 생성
+#- 팝업 창을 사용한 로그인: signInWithPopup 함수를 호출
+#4-8-2 Google에서 계속, Github에서 계속 버튼 컴포넌트에 onSocialClick 함수를 onClick prop으로 설정
+#4-9 Navigation 만들기
+#4-9-1 src/components/Navigation.js 생성
+#4-9-2 Link 컴포넌트로 Home 또는 Profile로 갈 수 있는 Navigation 컴포넌트 생성
+#4-9-3 {isLoggedIn && <Navigation />}으로 렌더링
+#- 위치: src/components/Router.js의 BrowserRouter 컴포넌트 안의 맨 위 
+#- isLoggedIn && <Navigation />: isLoggedIn이 true이면, Navigation 컴포넌트 렌더링
+#4-9-4 BrowserRouter 컴포넌트 안에 Profile Route 컴포넌트 렌더링
+#4-10 Log Out 구현
+#- 위치: src/routes/Profile.js 
+#4-10-1 onLogOutClick 함수 생성
+#- signOut 함수로 Log Out
+#- useNavigate( )로 Log Out 후 Home으로 페이지 이동 설정
+#4-10-2 Log Out 버튼 컴포넌트 렌더링
+#- Log Out 버튼 컴포넌트에 onLogOutClick 함수를 onClick prop으로 설정
+#5 Tweeting
+#5-1 Cloud Firestore DB 생성
+#5-2 src/fbase.js에 Cloud Firestore SDK 추가 및 초기화
+#5-3 tweet 작성 폼 만들기
+#- 위치: src/routes/Home.js 
+#5-3-1 form 컴포넌트 생성
+#- 그 안에 text, submit input 컴포넌트 2개 생성
+#5-3-2 useState로 tweet 상수 생성
+#- input 컴포넌트에 tweet 상수를 value prop으로 설정
+#5-3-3 onChange 함수 생성 
+#- event 객체의 target에서 value 추출
+#- 이를 이용해 tweet 상수의 state 변경을 설정
+#- text input 컴포넌트에 onChange 함수를 onChange prop으로 설정 
+#5-3-4 onSubmit 함수 생성
+#- 함수 안에 event.preventDefault( ) 설정
+#- form 컴포넌트에 onSubmit 함수를 onSubmit prop으로 설정 
+#5-4 새 collection과 document 만들기
+#- 위치: src/routes/Home.js 
+#5-4-1 onSubmit 함수 안에 addDoc 함수, collection 함수로 새 collection과 document 만들기
+#- collection 이름: tweets
+#- document에 text: tweet, createdAt: Date.now( ) 필드 생성
+#5-4-2 document 생성 후, tweet 상수 state의 “ ”로 변경을 설정
+#5-5 데이터 가져오기
+#- 위치: src/routes/Home.js 
+#5-5-1 useState로 tweets 상수 생성
+#5-5-2 getTweets 함수 생성
+#- getDocs 함수, collection 함수로 QuerySnapshot 클래스 생성
+#- forEach 메서드로 QuerySnapshot의 모든 document 열거
+#- tweets 상수의 state 변경을 설정
+#5-5-3 useEffect로 컴포넌트가 mount 됐을 때, getTweets 함수 호출
+#5-5-4 tweets 상수의 모든 tweet을 form 컴포넌트 아래 렌더링
+#5-5-5 데이터가 두 번 저장되는 경우, React.StrictMode 컴포넌트 삭제
+#- 위치: src/index.js 
+#- StrictMode는 side effect를 줄이기 위해 일부러 두번씩 실행시킴
+#- 그래서 dev환경에서만 두번씩 호출되고, production에서는 무시됨
+#5-6 user에 대한 정보 전달
+#5-6-1 useState로 userObj 상수 생성
+#- 위치: src/components/App.js 
+#5-6-2 useEffect에 컴포넌트가 mount 됐을 때, onAuthStateChanged 함수로 사용자의 로그인 상태 변경을 감지해, 그 때마다 user에 대한 정보를 userObj 상수의 state에 저장하도록 설정
+#5-6-3 AppRouter 컴포넌트에 userObj 상수를 userObj prop으로 설정
+#5-6-4 src/components/Router.js의 AppRouter 컴포넌트에 전달된 userObj prop을 Home Route 컴포넌트에 userObj prop으로 설정
+#5-6-5 src/routes/Home.js의 Home Route 컴포넌트에 전달된 userObj prop으로, onSubmit 함수 안의 document에 creatorId: userObj.uid 필드 추가
+#5-7 데이터 가져오기를 Realtime으로 변경
+#- 위치: src/routes/Home.js 
+#5-7-1 Tweets 상수에  DB의 CRUD를 실시간으로 알려주는 onSnapshot 함수 설정
+#5-7-2 snapshot의 document들을 snapshot.docs.map( )으로 열거해, id와 data의 배열인 tweetArray 상수 생성
+#5-7-3 이를 이용해 Tweets 상수의 state 변경을 설정
+#5-8 Delete and Update 버튼 생성
+#5-8-1 src/components/Tweet.js 생성
+#5-8-2 tweetObj prop을 전달받아 tweetObj.text를 렌더링하는 Tweet 컴포넌트 생성
+#5-8-3 Tweet 컴포넌트 렌더링
+#- 위치: src/routes/Home.js의 form 컴포넌트 아래
+#- tweets 상수의 모든 tweet을 렌더링하는 코드(#5-5-4)를 대체
+#5-8-4 Tweet 컴포넌트에 tweet.id를 key prop으로, tweet을 tweetObj prop으로 설정
+#5-8-5 Tweet 컴포넌트에 tweet.creatorId가 userObj.uid와 같으면 true가 되는 조건식을 isOwner prop으로 설정
+#5-8-6 Delete와 Edit 버튼 컴포넌트 생성
+#- 위치: src/components/Tweet.js 
+#- isOwner이 true인 경우에만 버튼 컴포넌트 렌더링
+#5-9 Delete 기능 구현
+#- 위치: src/components/Tweet.js 
+#- onDeleteClick 함수 생성
+#- 함수 안에 window.confirm( )으로 확인과 취소 두 버튼을 갖는 모달 대화상자 생성
+#- 함수 안에 ok = true이면, deleteDoc 함수로 해당 tweet를 삭제하는 코드 작성
+#- Delete 버튼에 onDeleteClick 함수를 onClick prop으로 설정
+#5-10 Update 기능 구현
+#- 위치: src/components/Tweet.js 
+#5-10-1 useState로 editing 상수 생성
+#5-10-2 useState로 newTweet 상수 생성 → 초기값을 tweetObj.text로 설정
+#5-10-3 editing 상수의 state를 반대로 돌리는 toggleEditing 함수 생성
+#5-10-4 Edit 버튼에 onClick prop으로 toggleEditing 함수 설정
+#5-10-5 삼항 연산자로 editing 상수가 true이면 form을, false이면 기존의 h4 태그를 보여주도록 설정
+#5-10-6 form 컴포넌트 생성
+#- 그 안에 2개의 text, submit input 컴포넌트 생성
+#5-10-7 Cancel button 컴포넌트 생성
+#- 버튼 컴포넌트에 toggleEditing 함수를 onClick prop으로 설정
+#5-10-8 onChange 함수 생성
+#- event 객체의 target에서 value 추출
+#- 이를 이용해 NewTweet 상수의 state 변경을 설정
+#- text input 컴포넌트에 onChange 함수를 onChange prop으로 설정 
+#- text input 컴포넌트에 NewTweet 상수를 value prop으로 설정
+#5-10-9 onSubmit 함수 생성
+#- 함수 안에 event.preventDefault( ) 설정
+#- updateDoc 함수로 해당 tweet를 update하는 코드 작성
+#- update 후 editing 상수의 state를 false로 변경하도록 설정
+#- form 컴포넌트에 onSubmit 함수를 onSubmit prop으로 설정
+#6 File Upload
+#6-1 tweet 작성 폼 변경하기
+#- 위치: src/routes/Home.js
+#6-1-1 file input 컴포넌트 생성
+#- 위치: src/routes/Home.js의 text input 컴포넌트와 submit input 컴포넌트 사이
+#- image 파일만 받도록 accept="image/*"로 설정
+#6-1-2 useState로 attachment 상수 생성
+#- 사진 첨부 없이 텍스트만 트윗하고 싶을 때도 있으므로, 초기값을 ""로 해야 함
+#6-1-3 onFileChange 함수 생성
+#- event 객체의 target에서 files 추출
+#- files의 첫 번째 file(files[0])을 가져오는 theFile 상수 설정
+#- file input 컴포넌트에 onFileChange 함수를 onChange prop으로 설정 
+#- FileReader( )로 reader 객체 생성
+#- reader 객체에 onloadend 이벤트 리스너 추가 
+#- file 읽기 동작이 끝났을 때, finishedEvent 객체를 갖게 됨
+#- finishedEvent 객체의 currentTarget에서 result 추출
+#- 이를 이용해 Attachment 상수의 state 변경을 설정
+#- reader 객체에 readAsDataURL 메서드를 추가해, image 바이너리 파일을 Base64 Encode 문자열로 읽어들임
+#6-1-4 attachment = true(image 파일이 선택됨)이면, img 컴포넌트와 Clear 버튼 컴포넌트 렌더링 
+#- img 컴포넌트(src={attachment})와 Clear 버튼 컴포넌트 생성
+#- Attachment 상수를 null로 되돌리는 onClearAttachment 함수 생성
+#- Clear 버튼 컴포넌트에 onClearAttachment 함수를 onClick prop으로 설정
+#6-2 image를 첨부한 후, 새 collection과 document를 생성하도록 코드 변경
+#6-2-1 Cloud Storage 생성
+#6-2-2 Cloud Storage SDK 추가 및 초기화
+#- 위치: src/fbase.js
+#6-2-3 attachmentUrl 변수를 “ “으로 생성
+#- 위치; src/routes/Home.js 
+#- 트윗할 때 텍스트만 입력시, attachmentUrl 변수를 ""로 비워두기 위함
+#6-2-4 attachment가 있으면,  image를 첨부하고, attachmentUrl 생성하는 조건문 작성
+#- 이미지 첨부하지 않고 텍스트만 올리고 싶을 때도 있기 때문에, attachment가 있을때만 아래 코드 실행
+#- ref 함수로, 우선 파일 이름을 포함해 파일의 전체 경로를 가리키는 reference 생성
+#- uuid로 img 파일에 random한 이름을 부여 → image 이름의 중복을 방지해야 업로드 됨
+#- uploadString 함수로, 문자열에서 업로드
+#6-2-5 response.ref로 reference 생성 
+#- 이를 이용해 getDownloadURL 함수로 다운로드 URL 가져오기
+#- 가져온 URL을 attachmentUrl 변수에 할당 → 이미지 첨부하지 않은 경우, attachmentUrl=""이 됨
+#6-2-6 tweetObj 객체 생성
+#- key 값은 text, createdAt, creatorId, attachmentUrl임
+#6-2-7 tweetObj 객체로 document를 생성하도록, 새 collection과 document 생성 코드(#5-4-1) 변경
+#6-2-8 Attachment 상수의 state를 “ ”로 변경 설정
+#6-2-9 image가 업로드된 경우, image 컴포넌트를 렌더링하도록 설정
+#- 위치:  src/components/Tweet.js의 h4 태그(tweetObj.text를 렌더링) 아래 
+#- image가 업로드 여부: tweetObj.attachmentUrl이 true인 경우 
+#6-3 tweet 삭제하기
+#- tweet를 삭제시, image도 함께 삭제되도록 수정
+#- 위치: src/components/Tweet.js 
+#- onDeleteClick 함수(#5-9-1) 수정
+#- 함수 안에 ok = true이면, deleteObject 함수로 해당 image를 삭제하는 코드 작성
+#7 Edit Profile
+#7-1 사용자의 tweet 전체를 가져오기
+#7-1-1 Profile Route 컴포넌트에 전달받은 userObj prop을 userObj prop으로 설정
+#- 위치: src/components/Router.js
+#7-1-2 src/routes/Profile.js에 userObj prop 전달
+#7-1-3 getMyTweets 함수 생성
+#7-1-4 query 함수로 db의 tweets collection에서 userObj의 uid와 동일한 creatorID를 가진 모든 document를 내림차순으로 가져오는 쿼리 생성
+#7-1-5 getDocs 함수로 쿼리 결과 값 가져오기
+#7-1-6 useEffect로 getMyTweets 함수 호출
+#7-2 사용자 Profile 업데이트
+#7-2-1 Navigation 컴포넌트에 전달받은 userObj prop을 userObj prop으로 설정
+#- 위치: src/components/Router.js
+#7-2-2 src/components/Navigation.js에 userObj prop 전달
+#7-2-3 Link 컴포넌트의 child를 My Profile → {userObj.displayName}의 Profile로 변경
+#7-2-4 useState로 newDisplayName 상수 생성 → 초기값을 userObj.displayName으로 설정
+#- 위치: src/routes/Profile.js 
+#7-2-5 form 컴포넌트 생성
+#- 위치: src/routes/Profile.js의 Log Out 버튼 컴포넌트 위 
+#- 그 안에 2개의 text, submit input 컴포넌트 생성
+#7-2-6 onChange 함수 생성 
+#- event 객체의 target에서 value 추출
+#- 이를 이용해 NewDisplayName 상수의 state 변경을 설정
+#- input 컴포넌트에 onChange 함수를 onChange prop으로 설정 
+#7-2-7 onSubmit 함수 생성
+#- 함수 안에 event.preventDefault( ) 설정
+#- updateProfile 함수로 현재 사용자의 Profile을 newDisplayName 상수로 update하는 코드 작성
+#- 이를 통해 firebase의 사용자 Profile이 업데이트 됨
+#- form 컴포넌트에 onSubmit 함수를 onSubmit prop으로 설정
+#7-3 사용자 Profile 업데이트를 화면에 실시간 반영
+#7-3-1 refreshUser 함수 생성
+#- 위치: UserObj 상수가 있는 src/components/App.js
+#- refreshUser 함수: 사용자 Profile 업데이트를 UserObj 상수에 실시간 반영 
+#- updateCurrentUser 함수로 사용자의 Profile을 업데이트
+#- 사용자의 업데이트된 Profile로 UserObj 상수의 state 변경을 설정
+#- AppRouter 컴포넌트에 refreshUser 함수를 refreshUser prop으로 설정
+#- src/components/Router.js에 refreshUser prop 전달
+#- Profile Route 컴포넌트에 전달된 refreshUser prop을 refreshUser prop으로 설정
+#- src/routes/Profile.js에 refreshUser prop 전달
+#7-3-2 firebase의 사용자 Profile이 업데이트 될 때, 화면에 표시되는 사용자 Profile도 업데이트하기 위해, src/routes/Profile.js의 onSubmit 함수 안에 refreshUser 함수를 호출
+#8 FINISHING UP(생략): NOMAD CODERS - 트위터 클론코딩 참조
+① Cleaning JS
+② Styles
+③ Deploying
+④ Security on Firebase
+⑤ API Key Security
+
