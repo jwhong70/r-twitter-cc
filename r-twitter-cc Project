@@ -6,22 +6,13 @@
 #1-4 파일 내용 수정: ⑴ App.js, ⑵ index.js, ⑶ package.json 
 #1-5 필요없는 파일 삭제: ⑴ src/App.css, ⑵ src/App.test.js, ⑶ src/index.css, ⑷ src/logo.svg, ⑸ src/reportWebVitals.js, ⑹ src/setupTests.js
 
-
-
 #2 Firebase Setup
 #2-1 Firebase 프로젝트 생성
 #2-2 앱에 Firebase를 추가해 시작하기
 #2-3 SDK 설치
 #2-4 Firebase 초기화: src/fbase.js, .env 생성
 #2-5 .gitignore의 # misc 맨 아래에 .env 추가
-// .env
-REACT_APP_API_KEY=AIzaSyDiIwfFu0VlXMgKl4dPvYsEdrdg2d9iHmo
-REACT_APP_AUTH_DOMAIN=h-twitter-cc.firebaseapp.com
-REACT_APP_DATABASE_URL=https://DATABASE_NAME.REGION.firebasedatabase.app
-REACT_APP_PROJECT_ID=h-twitter-cc
-REACT_APP_STORAGE_BUCKET=h-twitter-cc.appspot.com
-REACT_APP_MESSAGIN_ID=570759616410
-REACT_APP_APP_ID=1:570759616410:web:d6bd8e31d6d89ae254cc23
+
 #3 Router Setup
 #3-1 react-router-dom 설치
 #3-2 src/routes 폴더 생성
@@ -43,6 +34,7 @@ $ BrowserRouter/Routes/Route 컴포넌트로 AppRouter 컴포넌트 생성
 #3-6-2 AppRouter 컴포넌트에 isLoggedIn 상수를 isLoggedIn prop으로 설정
 #3-6-3 Router.js의 AppRouter 컴포넌트에 isLoggedIn prop 전달
 #3-6-4 isLoggedIn 상수와 삼항 연산자를 이용해, 로그인 여부에 따라 분기가 달라지게 처리
+
 #4 Authentication
 #4-1 Authentication SDK 추가 및 초기화
 #4-2 현재 로그인한 사용자 가져오기
@@ -108,6 +100,7 @@ $ BrowserRouter/Routes/Route 컴포넌트로 AppRouter 컴포넌트 생성
 #- useNavigate( )로 Log Out 후 Home으로 페이지 이동 설정
 #4-10-2 Log Out 버튼 컴포넌트 렌더링
 #- Log Out 버튼 컴포넌트에 onLogOutClick 함수를 onClick prop으로 설정
+
 #5 Tweeting
 #5-1 Cloud Firestore DB 생성
 #5-2 src/fbase.js에 Cloud Firestore SDK 추가 및 초기화
@@ -193,6 +186,7 @@ $ BrowserRouter/Routes/Route 컴포넌트로 AppRouter 컴포넌트 생성
 #- updateDoc 함수로 해당 tweet를 update하는 코드 작성
 #- update 후 editing 상수의 state를 false로 변경하도록 설정
 #- form 컴포넌트에 onSubmit 함수를 onSubmit prop으로 설정
+
 #6 File Upload
 #6-1 tweet 작성 폼 변경하기
 #- 위치: src/routes/Home.js
@@ -242,6 +236,7 @@ $ BrowserRouter/Routes/Route 컴포넌트로 AppRouter 컴포넌트 생성
 #- 위치: src/components/Tweet.js 
 #- onDeleteClick 함수(#5-9-1) 수정
 #- 함수 안에 ok = true이면, deleteObject 함수로 해당 image를 삭제하는 코드 작성
+
 #7 Edit Profile
 #7-1 사용자의 tweet 전체를 가져오기
 #7-1-1 Profile Route 컴포넌트에 전달받은 userObj prop을 userObj prop으로 설정
@@ -281,6 +276,7 @@ $ BrowserRouter/Routes/Route 컴포넌트로 AppRouter 컴포넌트 생성
 #- Profile Route 컴포넌트에 전달된 refreshUser prop을 refreshUser prop으로 설정
 #- src/routes/Profile.js에 refreshUser prop 전달
 #7-3-2 firebase의 사용자 Profile이 업데이트 될 때, 화면에 표시되는 사용자 Profile도 업데이트하기 위해, src/routes/Profile.js의 onSubmit 함수 안에 refreshUser 함수를 호출
+
 #8 FINISHING UP(생략): NOMAD CODERS - 트위터 클론코딩 참조
 #- Cleaning JS
 #- Styles
