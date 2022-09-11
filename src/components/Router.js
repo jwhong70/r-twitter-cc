@@ -4,8 +4,8 @@ import Home from "../routes/Home";
 import Profile from "../routes/Profile";
 import Navigation from "./Navigation";
 
-// #3-4/#3-6-3
-const AppRouter = ({ isLoggedIn }) => {
+// #3-4/#3-6-3/#5-6-4
+const AppRouter = ({ isLoggedIn, userObj }) => {
   return (
     <BrowserRouter>
       {/* #4-9-3 */}
@@ -14,7 +14,8 @@ const AppRouter = ({ isLoggedIn }) => {
         {/* #3-6-4 */}
         {isLoggedIn ? (
           <>
-            <Route path="/" element={<Home />} />
+            {/* #5-6-4 */}
+            <Route path="/" element={<Home userObj={userObj} />} />
             {/*#4-9-4 */}
             <Route path="/profile" element={<Profile />} />
           </>

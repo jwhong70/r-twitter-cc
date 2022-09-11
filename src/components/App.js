@@ -13,11 +13,15 @@ function App() {
   const [init, setInit] = useState(false);
   // #3-6-1
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // #5-6-1
+  const [userObj, setUserObj] = useState(null);
   // #4-5-2/#4-5-3
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsLoggedIn(true);
+        // #5-6-2
+        setUserObj(user);
       } else {
         setIsLoggedIn(false);
       }
@@ -25,10 +29,13 @@ function App() {
     });
   }, []);
   return (
-    // #3-5-3/#3-6-2/#4-5-4
+    // #3-5-3/#3-6-2/#4-5-4/#5-6-3
     <>
-      {init ? <AppRouter isLoggedIn={isLoggedIn} /> : "Initializing..."}
-      <footer>&copy; {new Date().getFullYear()} Nwitter</footer>
+      {init ? (
+        <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} />
+      ) : (
+        "Initializing..."
+      )}
     </>
   );
 }
