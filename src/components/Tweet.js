@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { db } from "./../fbase";
+import { db, storage } from "../fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { ref, deleteObject } from "firebase/storage";
 
 // #5-8-1/#5-8-2
 const Tweet = ({ tweetObj, isOwner }) => {
@@ -13,6 +14,8 @@ const Tweet = ({ tweetObj, isOwner }) => {
     const ok = window.confirm("정말 이 tweet을 삭제하시겠습니까?");
     if (ok) {
       await deleteDoc(doc(db, `tweets/${tweetObj.id}`));
+      // #6-3
+      await deleteObject(ref(storage, tweetObj.attachmentUrl));
     }
   };
   // #5-10-3
@@ -58,6 +61,10 @@ const Tweet = ({ tweetObj, isOwner }) => {
         <>
           {/* #5-8-2 */}
           <h4>{tweetObj.text}</h4>
+          {/* #6-2-9 */}
+          {tweetObj.attachmentUrl && (
+            <img src={tweetObj.attachmentUrl} width="50px" height="50px" />
+          )}
           {/* #5-8-6 */}
           {isOwner && (
             <>
